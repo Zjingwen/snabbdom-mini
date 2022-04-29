@@ -1,13 +1,3 @@
-function snabbdom() {
-  console.log("hello snabbdom");
-}
+export { init } from "./init";
 
-function h() {
-  console.log("h");
-}
-
-function init() {
-  console.log("init");
-}
-
-export { h, init };
+export { h } from "./h";
