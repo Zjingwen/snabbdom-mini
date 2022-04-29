@@ -1,0 +1,22 @@
+{
+  "name": "snabbdom-mini",
+  "version": "1.0.0",
+  "description": "snabbdom 纯js版本 源码分析",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zjingwen/snabbdom-mini.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zjingwen/snabbdom-mini/issues"
+  },
+  "homepage": "https://github.com/Zjingwen/snabbdom-mini#readme",
+  "dependencies": {
+    "rollup": "^2.70.2"
+  }
+}
