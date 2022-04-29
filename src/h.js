@@ -26,9 +26,11 @@ export function h(sel, b, c) {
     }
   }
 
-  for (i = 0; i < children.length; i++) {
-    if (is.primitive(children[i])) {
-      children[i] = vnode(undefined, undefined, children[i], undefined);
+  if (children !== undefined) {
+    for (i = 0; i < children.length; i++) {
+      if (is.primitive(children[i])) {
+        children[i] = vnode(undefined, undefined, children[i], undefined);
+      }
     }
   }
 

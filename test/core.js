@@ -4,8 +4,7 @@ import { assert } from "chai";
 
 describe("snabbdom", function () {
   it("can create vnode with children", function () {
-    // console.log(h("div"))
-    console.log(h)
-    assert.strictEqual("div", "div");
+    assert.strictEqual(h("div").sel, "div");
+    assert.strictEqual(h("a").sel, "a");
   });
 });
