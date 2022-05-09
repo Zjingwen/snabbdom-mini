@@ -10,15 +10,20 @@
 </head>
 
 <body>
-
+    <div id="app">
+        hello world
+    </div>
 </body>
 <script>
-    const { h } = snabbdom;
-    const vnode = h("svg", [
-        h("foreignObject", [h("div", ["I am HTML embedded in SVG"])]),
-    ]);
+    const { h, init } = snabbdom;
+    const patch = init([]);
+    const el = document.querySelector('#app');
 
-    console.log(vnode)
+    const vnode = h('div#vm.bgm', 'hello snabbdom');
+
+    setTimeout(() => patch(el, vnode), 1000)
+
+    // console.log(vnode)
 </script>
 
 </html>
