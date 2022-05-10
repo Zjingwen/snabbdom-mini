@@ -39,29 +39,6 @@ function updateChildren() {}
 // 插入节点
 function addVnodes() {}
 
-// 删除节点
-function removeVnodes(parnetElm, vnodes, startIdx, endIdx) {
-  for (; startIdx <= endIdx; ++startIdx) {
-    let listeners;
-    let rm = () => {};
-    const ch = vnodes[startIdx];
-    if (ch != null) {
-      if (isDef(ch.sel)) {
-        listeners = cbs.remove.length + 1;
-        rm = createRmCb(ch.elm, listeners);
-        const removeHook = ch?.data?.remove;
-        if (isDef(removeHook)) {
-          removeHook(ch, rm);
-        } else {
-          rm();
-        }
-      } else {
-        htmlDomApi.removeChild(parnetElm, ch.elm);
-      }
-    }
-  }
-}
-
 function createRmCb(childElm, listeners) {
   return function rmCb() {
     if (--listeners === 0) {
@@ -81,8 +58,14 @@ export function init(modules, domApi, options) {
     pre: [],
     post: [],
   };
-  // 判断 oldVnode和newVnode 是否相等
-  // 根据不同的状态，执行updateChildren、addVnode、removeVnode
+  
+  /**
+   * 动态变换节点
+   * @param {object} oldVnode 旧vnode
+   * @param {object} vnode 新vnode
+   * @param {array} insertedVnodeQueue 队列
+   * @returns 当vnode和oldVnode相等时中断，返回undefined
+   */
   function patchVnode(oldVnode, vnode, insertedVnodeQueue) {
     const oldCh = oldVnode.children; // old node的子节点
     const ch = vnode.children; // new node的子节点
@@ -90,7 +73,7 @@ export function init(modules, domApi, options) {
 
     // 新旧vnode相等直接返回
     if (oldVnode === vnode) return;
-    debugger;
+
     if (
       vnode.data !== undefined ||
       (isDef(vnode.text) && vnode.text !== oldVnode.text)
@@ -109,8 +92,10 @@ export function init(modules, domApi, options) {
         // 插入新节点
         addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue);
       } else if (isDef(oldCh)) {
+        // 删除旧节点
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
       } else if (isDef(oldVnode.text)) {
+        // 重制为空
         htmlDomApi.setTextContent(elm, "");
       }
     } else if (oldVnode.text !== vnode.text) {
@@ -121,6 +106,13 @@ export function init(modules, domApi, options) {
     }
   }
 
+  /**
+   * 删除节点
+   * @param {element} parnetElm 父节点
+   * @param {array} vnodes vnodes结构，
+   * @param {number} startIdx 开始位置
+   * @param {number} endIdx 结束位置
+   */
   function removeVnodes(parnetElm, vnodes, startIdx, endIdx) {
     for (; startIdx <= endIdx; ++startIdx) {
       let listeners;
